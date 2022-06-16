@@ -168,4 +168,5 @@ let getWeatherByCity = function (event) {
     var cityInput = document.querySelector(".search-field");
 }
 
+renderHistory(JSON.parse(localStorage.getItem("searchHistory")));
 let submitBtn = document.querySelector(".btn-submit").addEventListener("click", getWeatherByCity);
