@@ -6,19 +6,19 @@ let renderCurrentWeather = function (data) {
 
     let temp = document.createElement("h3");
     temp.classList.add("temp-item");
-    temp.innerHTML = "Temp: " + data.main.temp + "F";
+    temp.innerHTML = "Temp: " + data.current.temp + "F";
 
-    let wind =document.createElement("h3");
+    let wind = document.createElement("h3");
     wind.classList.add("temp-item");
-    wind.innerHTML = "Wind: " + data.wind.speed+ "MPH";
+    wind.innerHTML = "Wind: " + data.current.wind_speed + "MPH";
 
     let humidity = document.createElement("h3");
     humidity.classList.add("temp-item");
-    humidity.innerHTML = "Humidity: " + data.main.humidity + "%";
+    humidity.innerHTML = "Humidity: " + data.current.humidity + "%";
 
     let uvIndex = document.createElement("h3");
     uvIndex.classList.add("temp-item");
-    uvIndex.innerHTML = "UV Index: ";
+    uvIndex.innerHTML = "UV Index: " + data.current.uvi;
 
     curWeatherContainer.appendChild(temp);
     curWeatherContainer.appendChild(wind);
@@ -31,21 +31,31 @@ let getWeatherByCity = function (event) {
     let cityName = document.querySelector(".search-field").value;
     console.log("city ", cityName);
     let url = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&units=imperial&appid=" + key;
+    fetch(url)
+        .then(function (response) {
+            if (response.ok) {
 
-    fetch (url)
-    .then(function (response) {
-        if (response.ok) {
-            response.json().then(function (data) {
-                //What to do with the data?
-                renderCurrentWeather(data);
+                response.json().then(function (data) {
+                    console.log(data);
+                    //annoying
+                    let urlCoordinates = "https://api.openweathermap.org/data/2.5/onecall?lat=" + data.coord.lat + "&lon=" + data.coord.lon + "&appid=" + key;
 
+                    fetch(urlCoordinates)
+                        .then(function (completeResponse) {
+                            if (completeResponse.ok) {
+                                completeResponse.json().then(function (completeData) {
+                                    renderCurrentWeather(completeData);
+                                    console.log(completeData);
+                                });
+                            } 
+                        });
+                });
 
-            })
-        } else {
-            console.log("response not ok");
-        }
-        
-    })
+            } else {
+                console.log("response not ok");
+            }
+
+        })
 
     var cityInput = document.querySelector(".search-field");
 }
