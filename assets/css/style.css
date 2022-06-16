@@ -1,0 +1,55 @@
+.search-container {
+    width: 30%;
+    flex: 0 0 20%;
+}
+
+.form-container {
+    width: 100%;
+    border-bottom: 1px solid black;
+}
+
+.search-form {
+    width: 100%;
+    padding-top: 10px;
+}
+
+.search-field {
+    display: inline-block;
+    width: 95%;
+    margin-bottom: 10px;
+}
+
+.btn-submit {
+    display: inline-block;
+    width: 98%;
+    margin-bottom: 20px;
+    background-color: lightblue;
+}
+
+.main {
+    display: flex;
+    justify-content: space-around;
+}
+.display-weather-container {
+    flex: 0 0 75%;
+}
+
+.current-weather-container {
+    border-style: solid;
+}
+
+.city-name {
+    margin-left: 10px;
+}
+
+.forecast-title {
+    margin-left: 10px;
+}
+
+.forecast-container {
+    border-style: solid;
+}
+
+.temp-item {
+    margin-left: 10px;
+}
