@@ -69,7 +69,7 @@ let renderForcaster = function (data) {
 
         let dateview = document.createElement("h5");
         dateview.classList.add("daily-info");
-        dateview.innerHTML = date.getFullYear() + "/" + date.getMonth() + "/" + (date.getDate() + (i+1));
+        dateview.innerHTML = date.getFullYear() + "/" + date.getMonth() + "/" + (date.getDate() + (i + 1));
 
         let temp = document.createElement("h5");
         temp.classList.add("daily-info");
@@ -91,11 +91,48 @@ let renderForcaster = function (data) {
         forecastContainer.appendChild(dailyInfoContainer);
     }
 
-    
+
+}
+
+let clickHistory = function (cityName) {
+    //set textfield to innerhtml value
+    let inputField = document.querySelector(".search-field");
+    inputField.value = cityName;
+}
+
+let renderHistory = function (searchHistory) {
+    let historyContainer = document.querySelector(".search-history");
+    console.log("History: ", searchHistory);
+    for (let i = 0; i < searchHistory.length; i++) {
+        let historyButton = document.createElement("button");
+        historyButton.classList.add("hist-button");
+        //set field to current button value
+        historyButton.addEventListener("click", clickHistory(searchHistory[i]));
+        historyButton.innerHTML = searchHistory[i];
+        historyContainer.appendChild(historyButton);
+    }
+}
+
+let appendToHistory = function (city) {
+    let searchHistory = [];
+
+    //retrieve local storage
+    if (JSON.parse(localStorage.getItem("searchHistory"))) {
+        searchHistory = JSON.parse(localStorage.getItem("searchHistory"));
+    }
+
+    console.log(searchHistory);
+
+    searchHistory[searchHistory.length] = city;
+    localStorage.setItem("searchHistory", JSON.stringify(searchHistory));
+    renderHistory(JSON.parse(localStorage.getItem("searchHistory")));
 }
 
 let getWeatherByCity = function (event) {
-    event.preventDefault();
+    if (event) {
+        event.preventDefault();
+    }
+
     let cityName = document.querySelector(".search-field").value;
     console.log("city ", cityName);
     let url = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&units=imperial&appid=" + key;
@@ -114,6 +151,8 @@ let getWeatherByCity = function (event) {
                                 completeResponse.json().then(function (completeData) {
                                     renderCurrentWeather(completeData, cityName);
                                     renderForcaster(completeData);
+                                    //search history
+                                    appendToHistory(cityName);
                                     console.log(completeData);
                                 });
                             }

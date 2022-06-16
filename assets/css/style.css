@@ -66,3 +66,14 @@
 .daily-info {
     margin-left: 10px;
 }
+
+.search-history {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.hist-button {
+    width: 100%;
+    margin-bottom: 10px;
+    background-color: lightblue;
+}
