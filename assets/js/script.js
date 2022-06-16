@@ -1,30 +1,50 @@
 let key = "e8a1e9cb1e3974ba3324078493ce8325";
 
-let renderCurrentWeather = function (data) {
+let renderCurrentWeather = function (data, city) {
     console.log(data);
+    var date = new Date();
+    //clear container
     let curWeatherContainer = document.querySelector(".current-weather-container");
+    console.log(curWeatherContainer.childElementCount);
+
+    while (curWeatherContainer.firstChild) {
+        curWeatherContainer.removeChild(curWeatherContainer.firstChild);
+    }
+
+    let cityTitle = document.createElement("h1");
+    cityTitle.classList.add("city-name");
+    cityTitle.innerHTML = city + " " + date.getFullYear() + "/" + date.getMonth() + "/" + date.getDate();
+    curWeatherContainer.appendChild(cityTitle);
 
     let temp = document.createElement("h3");
-    temp.classList.add("temp-item");
+    temp.classList.add("temp-item1");
     temp.innerHTML = "Temp: " + data.current.temp + "F";
 
     let wind = document.createElement("h3");
-    wind.classList.add("temp-item");
+    wind.classList.add("temp-item2");
     wind.innerHTML = "Wind: " + data.current.wind_speed + "MPH";
 
     let humidity = document.createElement("h3");
-    humidity.classList.add("temp-item");
+    humidity.classList.add("temp-item3");
     humidity.innerHTML = "Humidity: " + data.current.humidity + "%";
 
     let uvIndex = document.createElement("h3");
-    uvIndex.classList.add("temp-item");
+    uvIndex.classList.add("temp-item4");
     uvIndex.innerHTML = "UV Index: " + data.current.uvi;
 
     curWeatherContainer.appendChild(temp);
     curWeatherContainer.appendChild(wind);
     curWeatherContainer.appendChild(humidity);
+    curWeatherContainer.appendChild(uvIndex);
 }
 
+let renderForcaster = function (data) {
+    let forecastList = [];
+
+    
+    
+
+}
 
 let getWeatherByCity = function (event) {
     event.preventDefault();
@@ -44,10 +64,10 @@ let getWeatherByCity = function (event) {
                         .then(function (completeResponse) {
                             if (completeResponse.ok) {
                                 completeResponse.json().then(function (completeData) {
-                                    renderCurrentWeather(completeData);
+                                    renderCurrentWeather(completeData, cityName);
                                     console.log(completeData);
                                 });
-                            } 
+                            }
                         });
                 });
 
