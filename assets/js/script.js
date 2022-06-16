@@ -5,7 +5,6 @@ let renderCurrentWeather = function (data, city) {
     var date = new Date();
     //clear container
     let curWeatherContainer = document.querySelector(".current-weather-container");
-    console.log(curWeatherContainer.childElementCount);
 
     while (curWeatherContainer.firstChild) {
         curWeatherContainer.removeChild(curWeatherContainer.firstChild);
@@ -17,19 +16,19 @@ let renderCurrentWeather = function (data, city) {
     curWeatherContainer.appendChild(cityTitle);
 
     let temp = document.createElement("h3");
-    temp.classList.add("temp-item1");
-    temp.innerHTML = "Temp: " + data.current.temp + "F";
+    temp.classList.add("temp-item");
+    temp.innerHTML = "Temp: " + data.current.temp + "K";
 
     let wind = document.createElement("h3");
-    wind.classList.add("temp-item2");
+    wind.classList.add("temp-item");
     wind.innerHTML = "Wind: " + data.current.wind_speed + "MPH";
 
     let humidity = document.createElement("h3");
-    humidity.classList.add("temp-item3");
+    humidity.classList.add("temp-item");
     humidity.innerHTML = "Humidity: " + data.current.humidity + "%";
 
     let uvIndex = document.createElement("h3");
-    uvIndex.classList.add("temp-item4");
+    uvIndex.classList.add("temp-item");
     uvIndex.innerHTML = "UV Index: " + data.current.uvi;
 
     curWeatherContainer.appendChild(temp);
@@ -40,10 +39,59 @@ let renderCurrentWeather = function (data, city) {
 
 let renderForcaster = function (data) {
     let forecastList = [];
+    let date = new Date();
+
+    // retrieve the data
+    for (let i = 0; i < 5; i++) {
+        let dailyForcast = {
+            temp: data.daily[i].temp.day + "K",
+            wind: data.daily[i].wind_speed + "MPH",
+            humidity: data.daily[i].humidity + "%"
+        }
+
+        forecastList[i] = dailyForcast;
+    }
+
+    let forecastContainer = document.querySelector(".forecast-container");
+
+    while (forecastContainer.firstChild) {
+        forecastContainer.removeChild(forecastContainer.firstChild);
+    }
+    let forecastTitle = document.createElement("h2");
+    forecastTitle.classList.add("forecast-title");
+    forecastTitle.innerHTML = "5 Day Forecast: ";
+    forecastContainer.appendChild(forecastTitle);
+
+    // create elements and append to page
+    for (let i = 0; i < 5; i++) {
+        let dailyInfoContainer = document.createElement("div");
+        dailyInfoContainer.classList.add("daily-info-container");
+
+        let dateview = document.createElement("h5");
+        dateview.classList.add("daily-info");
+        dateview.innerHTML = date.getFullYear() + "/" + date.getMonth() + "/" + (date.getDate() + (i+1));
+
+        let temp = document.createElement("h5");
+        temp.classList.add("daily-info");
+        temp.innerHTML = forecastList[i].temp;
+
+        let wind = document.createElement("h5");
+        wind.classList.add("daily-info");
+        wind.innerHTML = forecastList[i].wind;
+
+        let humidity = document.createElement("h5");
+        humidity.classList.add("daily-info");
+        humidity.innerHTML = forecastList[i].humidity;
+
+        dailyInfoContainer.appendChild(dateview);
+        dailyInfoContainer.appendChild(temp);
+        dailyInfoContainer.appendChild(wind);
+        dailyInfoContainer.appendChild(humidity);
+
+        forecastContainer.appendChild(dailyInfoContainer);
+    }
 
     
-    
-
 }
 
 let getWeatherByCity = function (event) {
@@ -65,6 +113,7 @@ let getWeatherByCity = function (event) {
                             if (completeResponse.ok) {
                                 completeResponse.json().then(function (completeData) {
                                     renderCurrentWeather(completeData, cityName);
+                                    renderForcaster(completeData);
                                     console.log(completeData);
                                 });
                             }

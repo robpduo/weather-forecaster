@@ -44,12 +44,25 @@
 
 .forecast-title {
     margin-left: 10px;
+    width: 100%;
 }
 
 .forecast-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
     border-style: solid;
 }
 
 .temp-item {
+    margin-left: 10px;
+}
+
+.daily-info-container {
+    border-style: solid;
+    width: 15%;
+}
+
+.daily-info {
     margin-left: 10px;
 }
