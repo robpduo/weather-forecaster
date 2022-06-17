@@ -1,4 +1,4 @@
-let key = "e3b626265786d8657b913a312e465ce1";
+let key = "e8a1e9cb1e3974ba3324078493ce8325";
 
 let renderCurrentWeather = function (data, city) {
     console.log(data);
