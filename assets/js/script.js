@@ -102,6 +102,11 @@ let clickHistory = function (cityName) {
 
 let renderHistory = function (searchHistory) {
     let historyContainer = document.querySelector(".search-history");
+
+    while (historyContainer.firstChild) {
+        historyContainer.removeChild(historyContainer.firstChild);
+    }
+
     console.log("History: ", searchHistory);
     for (let i = 0; i < searchHistory.length; i++) {
         let historyButton = document.createElement("button");
@@ -167,6 +172,8 @@ let getWeatherByCity = function (event) {
 
     var cityInput = document.querySelector(".search-field");
 }
+if (localStorage.getItem("searchHistory")) {
+    renderHistory(JSON.parse(localStorage.getItem("searchHistory")));
+}
 
-renderHistory(JSON.parse(localStorage.getItem("searchHistory")));
 let submitBtn = document.querySelector(".btn-submit").addEventListener("click", getWeatherByCity);
